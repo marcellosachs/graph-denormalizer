@@ -1,0 +1,36 @@
+{
+  "name": "graph-denormalizer",
+  "version": "1.0.12",
+  "description": "create new object based on old object and set of modifications that can be applied at selective depths",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf lib && babel src -d lib",
+    "buildTest": "rm -rf test/lib && babel test/src -d test/lib",
+    "test": "npm run build && npm run buildTest && mocha 'test/lib/**/*.@(js|jsx)'",
+    "deploy": "npm run build && git add --all && git commit -m 'automatic commit' && git push origin && npm version patch && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcellosachs/graph-denormalizer.git"
+  },
+  "keywords": [
+    "denormalize",
+    "graph",
+    "habtm",
+    "has_and_belongs_to_many"
+  ],
+  "author": "Marcello Sachs <marcello.sachs@gmail.com> (https://github.com/marcellosachs)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcellosachs/graph-denormalizer/issues"
+  },
+  "homepage": "https://github.com/marcellosachs/graph-denormalizer#readme",
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
+    "babel-preset-es2015": "^6.13.2",
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
+  },
+  "dependencies": {}
+}
