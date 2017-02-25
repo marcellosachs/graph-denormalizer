@@ -1,6 +1,9 @@
 # Install
 `npm install --save graph-denormalizer`
 
+# Test
+`npm run test`
+
 # Usage
 ```
 import graphDenormalizerHof from 'graph-denormalizer'
