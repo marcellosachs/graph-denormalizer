@@ -1,6 +1,6 @@
 {
   "name": "graph-denormalizer",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "denormalize a graph (handles has_and_belongs_to_many relationships, which normalizr/denormalizr (https://github.com/paularmstrong/normalizr) doesn't)",
   "main": "index.js",
   "scripts": {
