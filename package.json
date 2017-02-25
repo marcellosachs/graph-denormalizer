@@ -1,6 +1,6 @@
 {
   "name": "graph-denormalizer",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "create new object based on old object and set of modifications that can be applied at selective depths",
   "main": "index.js",
   "scripts": {
