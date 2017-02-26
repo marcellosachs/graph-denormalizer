@@ -10,20 +10,6 @@
 ```
 import graphDenormalizerHof from 'graph-denormalizer'
 
-const nodes = [
-    {this_id: 1, category: 'a'},
-    {this_id: 2, category: 'b'},
-    {this_id: 3, category: 'b'},
-    {this_id: 4, category: 'c'},
-    {this_id: 5, category: 'd'}
-]
-const edges = [
-  {parentId: 1, childId: 2},
-  {parentId: 1, childId: 3},
-  {parentId: 1, childId: 4},
-  {parentId: 2, childId: 5}
-]
-
 const typeHof = typeInput => ele => ele.category === typeInput
 
 const config = {
@@ -34,12 +20,24 @@ const config = {
   isDirectedGraph: false,
 }
 
-const graph = {
-  nodes,
-  edges,
-}
+const configuredGraphDenormalizerHof = graphDenormalizer(config)
 
-const graphDenormalizer = graphDenormalizerHof(config)(graph)
+const nodes = [
+    {this_id: 1, category: 'a'},
+    {this_id: 2, category: 'b'},
+    {this_id: 3, category: 'b'},
+    {this_id: 4, category: 'c'},
+    {this_id: 5, category: 'd'}
+]
+
+const edges = [
+  {parentId: 1, childId: 2},
+  {parentId: 1, childId: 3},
+  {parentId: 1, childId: 4},
+  {parentId: 2, childId: 5}
+]
+
+const graphDenormalizer = configuredGraphDenormalizerHof({nodes, edges})
 ```
 ### Input
 ```
@@ -92,22 +90,9 @@ const result = graphDenormalizer(nestSpec)
   ]
 }
 ```
-
 ## Example 2
 ```
 import graphDenormalizerHof from 'graph-denormalizer'
-
-const nodes = [
-    {id: 1, name: 'Hostos', assignmentType: {id: 1, name: 'site'}},
-    {id: 2, name: '101', assignmentType: {id: 2, name: 'route'}},
-    {id: 3, name: '102', assignmentType: {id: 2, name: 'route'}},
-    {id: 4, name: 'Team 1', assignmentType: {id: 3, name: 'team'}},    
-]
-const edges = [
-  {assignment1Id: 1, assignment2Id: 2},
-  {assignment1Id: 1, assignment2Id: 3},
-  {assignment1Id: 4, assignment2Id: 2},  
-]
 
 const typeHof = typeInput => ele => ele.assignmentType.name === typeInput
 
@@ -119,12 +104,22 @@ const config = {
   isDirectedGraph: false,
 }
 
-const graph = {
-  nodes,
-  edges,
-}
+const configuredGraphDenormalizerHof = graphDenormalizerHof(config)
 
-const graphDenormalizer = graphDenormalizerHof(config)(graph)
+const nodes = [
+    {id: 1, name: 'Hostos', assignmentType: {id: 1, name: 'site'}},
+    {id: 2, name: '101', assignmentType: {id: 2, name: 'route'}},
+    {id: 3, name: '102', assignmentType: {id: 2, name: 'route'}},
+    {id: 4, name: 'Team 1', assignmentType: {id: 3, name: 'team'}},    
+]
+
+const edges = [
+  {assignment1Id: 1, assignment2Id: 2},
+  {assignment1Id: 1, assignment2Id: 3},
+  {assignment1Id: 4, assignment2Id: 2},  
+]
+
+const graphDenormalizer = configuredGraphDenormalizerHof({nodes, edges})
 ```
 ### Input
 ```
@@ -140,7 +135,6 @@ const result = graphDenormalizer(nestSpec)
 ```
 ### Output
 ```
-
 {
   site: [
     {
