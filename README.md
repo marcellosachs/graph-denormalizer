@@ -92,3 +92,82 @@ const result = graphDenormalizer(nestSpec)
   ]
 }
 ```
+
+## Example 2
+```
+import graphDenormalizerHof from 'graph-denormalizer'
+
+const nodes = [
+    {id: 1, name: 'Hostos', assignmentType: {id: 1, name: 'site'}},
+    {id: 2, name: '101', assignmentType: {id: 2, name: 'route'}},
+    {id: 3, name: '102', assignmentType: {id: 2, name: 'route'}},
+    {id: 4, name: 'Team 1', assignmentType: {id: 3, name: 'team'}},    
+]
+const edges = [
+  {assignment1Id: 1, assignment2Id: 2},
+  {assignment1Id: 1, assignment2Id: 3},
+  {assignment1Id: 4, assignment2Id: 2},  
+]
+
+const typeHof = typeInput => ele => ele.assignmentType.name === typeInput
+
+const config = {
+  typeHof,
+  nodeIdAttr: 'id',
+  node1IdAttrOnEdge: 'assignment1Id',
+  node2IdAttrOnEdge: 'assignment2Id',
+  isDirectedGraph: false,
+}
+
+const graph = {
+  nodes,
+  edges,
+}
+
+const graphDenormalizer = graphDenormalizerHof(config)(graph)
+```
+### Input
+```
+const nestSpec = {
+  site: {
+    route: {
+      team: null,
+    },
+  }
+}
+
+const result = graphDenormalizer(nestSpec)
+```
+### Output
+```
+
+{
+  site: [
+    {
+      id: 1,
+      name: 'Hostos',
+      assignmentType: {id: 1, name: 'site'},
+      route: [
+        {
+          id: 2,
+          name: '101',
+          assignmentType: {id: 2, name: 'route'},
+          team: [
+            {
+              id: 4,
+              name: 'Team 1',
+              assignmentType: {id: 4, name: 'team'},
+            }
+          ]
+        },
+        {
+          id: 3,
+          name: '102',
+          assignmentType: {id: 3, name: 'route'},
+          team: []
+        }
+      ]
+    }
+  ]
+}
+```
