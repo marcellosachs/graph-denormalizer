@@ -1,39 +1,37 @@
 const relatedOfTypeHof = args => (id, typeInput) => {
   const {
-    entities,
-    idAttr,
-    typeHof,
+    nodes,
     edges,
-    edgeIdAttr1,
-    edgeIdAttr2,
-    isDirected,
+    nodeIdAttr,
+    typeHof,
+    node1IdAttrOnEdge,
+    node2IdAttrOnEdge,
+    isDirectedGraph,
   } = args
 
   const typeFn = typeHof(typeInput)
 
-  console.log('relatedOfType', id, typeInput)
-
   if (id === 'all') {
-    return entities.filter(typeFn)
+    return nodes.filter(typeFn)
   } else {
     const edges1 = edges.filter(e => {
-      if (isDirected) {
-        return (e[edgeIdAttr1] === id)
+      if (isDirectedGraph) {
+        return (e[node1IdAttrOnEdge] === id)
       } else {
-        return ([e[edgeIdAttr1], e[edgeIdAttr2]].includes(id))
+        return ([e[node1IdAttrOnEdge], e[node2IdAttrOnEdge]].includes(id))
       }
     })
-    const childIds = edges1.map(e => e[edgeIdAttr1] === id ? e[edgeIdAttr2] : e[edgeIdAttr1])
-    return entities.filter(e => {
-      return childIds.includes(e[idAttr]) && typeFn(e)
+    const childIds = edges1.map(e => e[node1IdAttrOnEdge] === id ? e[node2IdAttrOnEdge] : e[node1IdAttrOnEdge])
+    return nodes.filter(e => {
+      return childIds.includes(e[nodeIdAttr]) && typeFn(e)
     })
   }
 }
 
 
-const graphDenormalizer =  args => spec => {
+const graphDenormalizer = config => graph => spec => {
 
-  const relatedOfType = relatedOfTypeHof(args)
+  const relatedOfType = relatedOfTypeHof(Object.assign({}, config, graph))
 
 
   const helper = (parentId, typeInput, typeSpec) => {
@@ -46,7 +44,7 @@ const graphDenormalizer =  args => spec => {
         extra = Object.keys(typeSpec).reduce((acc, key) => {
           const deeperTypeInput = key
           const deeperTypeSpec = typeSpec[key]
-          const deeperParentId = entity[args.idAttr]
+          const deeperParentId = entity[config.nodeIdAttr]
           acc[key] = helper(deeperParentId, deeperTypeInput, deeperTypeSpec)
           return acc
         }, {})

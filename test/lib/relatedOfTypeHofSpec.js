@@ -3,18 +3,18 @@ const relatedOfTypeHof = require('../../src/index').relatedOfTypeHof;
 
 describe('relatedOfTypeHof', () => {
 
-  const entities = [{ this_id: 1, category: 'a' }, { this_id: 2, category: 'b' }, { this_id: 3, category: 'c' }];
+  const nodes = [{ this_id: 1, category: 'a' }, { this_id: 2, category: 'b' }, { this_id: 3, category: 'c' }];
   const edges = [{ parentId: 1, childId: 2 }, { parentId: 1, childId: 3 }];
   const typeHof = typeInput => ele => ele.category === typeInput;
 
   const args = {
-    entities,
+    nodes,
     edges,
     typeHof,
-    idAttr: 'this_id',
-    edgeIdAttr1: 'parentId',
-    edgeIdAttr2: 'childId',
-    isDirected: false
+    nodeIdAttr: 'this_id',
+    node1IdAttrOnEdge: 'parentId',
+    node2IdAttrOnEdge: 'childId',
+    isDirectedGraph: false
   };
 
   const subject = relatedOfTypeHof(args);
