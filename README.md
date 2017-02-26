@@ -10,10 +10,10 @@
 ```
 import graphDenormalizerHof from 'graph-denormalizer'
 
-const typeHof = typeInput => ele => ele.category === typeInput
+const typeFn = (typeInput, ele) => typeInput === ele.category
 
 const config = {
-  typeHof,
+  typeFn,
   nodeIdAttr: 'this_id',
   node1IdAttrOnEdge: 'parentId',
   node2IdAttrOnEdge: 'childId',
@@ -94,10 +94,10 @@ const result = graphDenormalizer(nestSpec)
 ```
 import graphDenormalizerHof from 'graph-denormalizer'
 
-const typeHof = typeInput => ele => ele.assignmentType.name === typeInput
+const typeFn = (typeInput, ele) => typeInput === ele.assignmentType.name
 
 const config = {
-  typeHof,
+  typeFn,
   nodeIdAttr: 'id',
   node1IdAttrOnEdge: 'assignment1Id',
   node2IdAttrOnEdge: 'assignment2Id',

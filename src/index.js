@@ -3,16 +3,16 @@ const relatedOfTypeHof = args => (id, typeInput) => {
     nodes,
     edges,
     nodeIdAttr,
-    typeHof,
+    typeFn,
     node1IdAttrOnEdge,
     node2IdAttrOnEdge,
     isDirectedGraph,
   } = args
 
-  const typeFn = typeHof(typeInput)
+  const typeFn2 = ele => typeFn(typeInput, ele)
 
   if (id === 'all') {
-    return nodes.filter(typeFn)
+    return nodes.filter(typeFn2)
   } else {
     const edges1 = edges.filter(e => {
       if (isDirectedGraph) {
@@ -23,7 +23,7 @@ const relatedOfTypeHof = args => (id, typeInput) => {
     })
     const childIds = edges1.map(e => e[node1IdAttrOnEdge] === id ? e[node2IdAttrOnEdge] : e[node1IdAttrOnEdge])
     return nodes.filter(e => {
-      return childIds.includes(e[nodeIdAttr]) && typeFn(e)
+      return childIds.includes(e[nodeIdAttr]) && typeFn2(e)
     })
   }
 }

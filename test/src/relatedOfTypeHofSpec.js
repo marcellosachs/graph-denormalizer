@@ -8,12 +8,12 @@ describe('relatedOfTypeHof', () => {
     {parentId: 1, childId: 2},
     {parentId: 1, childId: 3},
   ]
-  const typeHof = typeInput => ele => ele.category === typeInput
+  const typeFn = (typeInput, ele) => typeInput === ele.category
 
   const args = {
     nodes,
     edges,
-    typeHof,
+    typeFn,
     nodeIdAttr: 'this_id',
     node1IdAttrOnEdge: 'parentId',
     node2IdAttrOnEdge: 'childId',

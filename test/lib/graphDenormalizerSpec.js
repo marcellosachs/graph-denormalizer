@@ -5,10 +5,10 @@ describe('graphDenormalizer', () => {
 
   const nodes = [{ this_id: 1, category: 'a' }, { this_id: 2, category: 'b' }, { this_id: 3, category: 'b' }, { this_id: 4, category: 'c' }, { this_id: 5, category: 'd' }];
   const edges = [{ parentId: 1, childId: 2 }, { parentId: 1, childId: 3 }, { parentId: 1, childId: 4 }, { parentId: 2, childId: 5 }];
-  const typeHof = typeInput => ele => ele.category === typeInput;
+  const typeFn = (typeInput, ele) => ele.category === typeInput;
 
   const config = {
-    typeHof,
+    typeFn,
     nodeIdAttr: 'this_id',
     node1IdAttrOnEdge: 'parentId',
     node2IdAttrOnEdge: 'childId',

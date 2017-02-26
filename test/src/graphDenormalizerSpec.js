@@ -16,10 +16,10 @@ describe('graphDenormalizer', () => {
     {parentId: 1, childId: 4},
     {parentId: 2, childId: 5}
   ]
-  const typeHof = typeInput => ele => ele.category === typeInput
+  const typeFn = (typeInput, ele) => ele.category === typeInput
 
   const config = {
-    typeHof,
+    typeFn,
     nodeIdAttr: 'this_id',
     node1IdAttrOnEdge: 'parentId',
     node2IdAttrOnEdge: 'childId',
