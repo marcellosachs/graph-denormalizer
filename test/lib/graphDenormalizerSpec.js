@@ -1,29 +1,33 @@
-const expect = require('chai').expect;
-const graphDenormalizer = require('../../src/index').graphDenormalizer;
+'use strict';
 
-describe('graphDenormalizer', () => {
+var expect = require('chai').expect;
+var graphDenormalizer = require('../../src/index').graphDenormalizer;
 
-  const nodes = [{ this_id: 1, category: 'a' }, { this_id: 2, category: 'b' }, { this_id: 3, category: 'b' }, { this_id: 4, category: 'c' }, { this_id: 5, category: 'd' }];
-  const edges = [{ parentId: 1, childId: 2 }, { parentId: 1, childId: 3 }, { parentId: 1, childId: 4 }, { parentId: 2, childId: 5 }];
-  const typeFn = (typeInput, ele) => ele.category === typeInput;
+describe('graphDenormalizer', function () {
 
-  const config = {
-    typeFn,
+  var nodes = [{ this_id: 1, category: 'a' }, { this_id: 2, category: 'b' }, { this_id: 3, category: 'b' }, { this_id: 4, category: 'c' }, { this_id: 5, category: 'd' }];
+  var edges = [{ parentId: 1, childId: 2 }, { parentId: 1, childId: 3 }, { parentId: 1, childId: 4 }, { parentId: 2, childId: 5 }];
+  var typeFn = function typeFn(typeInput, ele) {
+    return ele.category === typeInput;
+  };
+
+  var config = {
+    typeFn: typeFn,
     nodeIdAttr: 'this_id',
     node1IdAttrOnEdge: 'parentId',
     node2IdAttrOnEdge: 'childId',
     isDirectedGraph: false
   };
 
-  const graph = {
-    nodes,
-    edges
+  var graph = {
+    nodes: nodes,
+    edges: edges
   };
 
-  const subject = graphDenormalizer(config)(graph);
+  var subject = graphDenormalizer(config)(graph);
 
-  it('works', () => {
-    const expected = {
+  it('works', function () {
+    var expected = {
       a: [{
         this_id: 1,
         category: 'a',
@@ -46,7 +50,7 @@ describe('graphDenormalizer', () => {
         }]
       }]
     };
-    const spec = {
+    var spec = {
       a: {
         b: {
           d: null
@@ -56,7 +60,7 @@ describe('graphDenormalizer', () => {
         }
       }
     };
-    const result = subject(spec);
+    var result = subject(spec);
     expect(result).to.deep.equal(expected);
   });
 });
